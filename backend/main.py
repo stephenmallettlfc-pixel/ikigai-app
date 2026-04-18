@@ -3,6 +3,8 @@ from flask_cors import CORS
 import anthropic
 import json
 import os
+import uuid
+import stripe
 from pathlib import Path
 from dotenv import load_dotenv
 import html as html_lib
@@ -11,6 +13,12 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 
 app = Flask(__name__, static_folder=str(Path(__file__).parent.parent / "frontend"))
 CORS(app)
+
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+PRICE_PENCE = 499  # £4.99
+
+# Temporary in-memory store for completed diagrams
+results_store = {}
 
 SYSTEM_PROMPT = """You are a warm, thoughtful ikigai guide. Ikigai (生き甲斐) is a Japanese concept meaning "reason for being" — the place where what you love, what you're good at, what the world needs, and what you can be paid for all overlap.
 
@@ -141,6 +149,59 @@ def serve_landing():
 @app.route("/app")
 def serve_app():
     return send_from_directory(app.static_folder, "index.html")
+
+
+@app.route("/store-result", methods=["POST"])
+def store_result():
+    data = request.get_json()
+    html = data.get("html", "")
+    result_id = str(uuid.uuid4())
+    results_store[result_id] = html
+    return jsonify({"result_id": result_id})
+
+
+@app.route("/create-checkout-session", methods=["POST"])
+def create_checkout_session():
+    data = request.get_json()
+    result_id = data.get("result_id", "")
+    base_url = request.host_url.rstrip("/")
+    try:
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[{
+                "price_data": {
+                    "currency": "gbp",
+                    "product_data": {
+                        "name": "Ikigai Discovery — Your Personal Results",
+                        "description": "Your personalised Ikigai diagram and 5 tailored next steps"
+                    },
+                    "unit_amount": PRICE_PENCE,
+                },
+                "quantity": 1,
+            }],
+            mode="payment",
+            success_url=f"{base_url}/result?session_id={{CHECKOUT_SESSION_ID}}&result_id={result_id}",
+            cancel_url=f"{base_url}/app",
+        )
+        return jsonify({"checkout_url": session.url})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/result")
+def show_result():
+    session_id = request.args.get("session_id", "")
+    result_id = request.args.get("result_id", "")
+    try:
+        session = stripe.checkout.Session.retrieve(session_id)
+        if session.payment_status != "paid":
+            return "Payment not completed. Please try again.", 402
+    except Exception:
+        return "Invalid payment session.", 400
+    diagram_html = results_store.get(result_id, "")
+    if not diagram_html:
+        return "Your result has expired. Please complete the conversation again.", 404
+    return diagram_html
 
 
 @app.route("/chat", methods=["POST"])

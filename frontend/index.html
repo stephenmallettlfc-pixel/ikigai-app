@@ -353,6 +353,65 @@
     .benefit-item strong { display: block; color: var(--text); font-size: 0.9rem; margin-bottom: 2px; }
     .benefit-item p { color: #666; margin: 0; }
 
+    /* ── Payment wall ── */
+    .payment-wall {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 480px;
+      gap: 20px;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .payment-wall.visible { display: flex; }
+    .payment-wall .pw-icon { font-size: 3.5rem; margin-bottom: 4px; }
+    .payment-wall h2 { font-size: 1.5rem; font-weight: 800; color: var(--text); line-height: 1.25; }
+    .payment-wall .pw-sub { font-size: 0.95rem; color: #555; line-height: 1.65; max-width: 360px; }
+    .payment-wall .pw-checklist {
+      list-style: none;
+      text-align: left;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .payment-wall .pw-checklist li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: #333;
+    }
+    .payment-wall .pw-checklist li::before {
+      content: "✓";
+      color: var(--red);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .pay-btn {
+      width: 100%;
+      background: var(--red);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      padding: 16px 32px;
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s;
+      box-shadow: 0 4px 20px rgba(192,57,43,0.3);
+    }
+    .pay-btn:hover { background: #a93226; transform: translateY(-1px); }
+    .pay-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+    .payment-wall .pw-secure { font-size: 0.76rem; color: var(--muted); }
+
     /* Start CTA box */
     .welcome-start-box {
       width: 100%;
@@ -557,6 +616,20 @@
 
     </div>
 
+    <div class="payment-wall" id="payment-wall">
+      <div class="pw-icon">🎉</div>
+      <h2>Your Ikigai is ready!</h2>
+      <p class="pw-sub">Your personalised diagram and next steps have been generated. Unlock them now for a one-time payment of <strong>£4.99</strong>.</p>
+      <ul class="pw-checklist">
+        <li>Your full personalised Ikigai diagram</li>
+        <li>Your written Ikigai statement</li>
+        <li>Passion, Mission, Vocation &amp; Profession mapped out</li>
+        <li>5 tailored next steps with real websites</li>
+      </ul>
+      <button class="pay-btn" id="pay-btn">Unlock My Results — £4.99</button>
+      <p class="pw-secure">🔒 Secure payment via Stripe &nbsp;·&nbsp; No subscription &nbsp;·&nbsp; One-time only</p>
+    </div>
+
     <div class="diagram-container" id="diagram-container">
       <iframe id="diagram-frame" title="Your Ikigai Diagram"></iframe>
     </div>
@@ -694,7 +767,7 @@
                 document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
                 updateProgress(fullText);
               } else if (parsed.type === 'diagram') {
-                showDiagram(parsed.html);
+                await storeAndShowPaymentWall(parsed.html);
                 markProgressDone();
               }
             } catch (e) { /* skip malformed */ }
@@ -712,6 +785,48 @@
     isStreaming = false;
     document.getElementById('send-btn').disabled = false;
     document.getElementById('input').focus();
+  }
+
+  async function storeAndShowPaymentWall(html) {
+    try {
+      const res = await fetch('/store-result', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ html }),
+      });
+      const { result_id } = await res.json();
+
+      document.getElementById('welcome').style.display = 'none';
+      document.getElementById('diagram-container').classList.remove('visible');
+      const wall = document.getElementById('payment-wall');
+      wall.classList.add('visible');
+      document.getElementById('right-panel').scrollTop = 0;
+
+      document.getElementById('pay-btn').onclick = () => handlePayment(result_id);
+    } catch (e) {
+      // Fallback: show diagram directly if payment system unavailable
+      showDiagram(html);
+    }
+  }
+
+  async function handlePayment(resultId) {
+    const btn = document.getElementById('pay-btn');
+    btn.textContent = 'Loading…';
+    btn.disabled = true;
+    try {
+      const res = await fetch('/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ result_id: resultId }),
+      });
+      const { checkout_url, error } = await res.json();
+      if (error) throw new Error(error);
+      window.location.href = checkout_url;
+    } catch (e) {
+      btn.textContent = 'Unlock My Results — £4.99';
+      btn.disabled = false;
+      alert('Payment could not be started. Please try again.');
+    }
   }
 
   function showDiagram(html) {
