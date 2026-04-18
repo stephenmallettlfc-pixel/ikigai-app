@@ -1,0 +1,74 @@
+========================================
+  IKIGAI APP — HOW TO RUN IT
+========================================
+
+STEP 1 — ADD YOUR API KEY
+--------------------------
+Open the file called ".env" (in the ikigai-app folder) in Notepad.
+Replace the text  paste-your-api-key-here  with your actual Anthropic API key.
+Save the file.
+
+Example of what it should look like:
+  ANTHROPIC_API_KEY=sk-ant-api03-xxxxxxxxxxxxxxxx
+
+
+STEP 2 — OPEN A TERMINAL
+--------------------------
+Press the Windows key, type "cmd", press Enter.
+Then type the following and press Enter:
+
+  cd C:\Users\kenny\Downloads\ikigai-app\backend
+
+
+STEP 3 — INSTALL DEPENDENCIES (first time only)
+-------------------------------------------------
+In the terminal, type:
+
+  py -m pip install flask flask-cors anthropic python-dotenv
+
+Wait for it to finish (takes about 30 seconds).
+
+
+STEP 4 — START THE APP
+------------------------
+In the terminal, type:
+
+  py main.py
+
+You should see something like:
+   * Running on http://127.0.0.1:5000
+
+
+STEP 5 — OPEN IN YOUR BROWSER
+-------------------------------
+Go to:  http://localhost:5000
+
+The ikigai app will open and Claude will greet you automatically.
+Your diagram will appear on the right as the conversation progresses.
+
+
+STOPPING THE APP
+-----------------
+Press Ctrl+C in the terminal window.
+
+
+TROUBLESHOOTING
+----------------
+"python was not found" error:
+  -> Use  py  instead of  python  -- Windows has a launcher called "py"
+     So instead of "python main.py" use "py main.py"
+
+"ANTHROPIC_API_KEY not set" error:
+  -> Check your .env file has the key on the same line, no spaces around the =
+
+"Module not found" error:
+  -> Run:  py -m pip install flask flask-cors anthropic python-dotenv  again
+
+Port already in use:
+  -> Change the last line of backend/main.py from port=5000 to port=5001
+  -> Then open http://localhost:5001
+
+
+========================================
+  Need help? Ask Claude in the Cowork app.
+========================================

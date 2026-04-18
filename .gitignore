@@ -1,0 +1,12 @@
+# Secret keys — never upload this
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Mac
+.DS_Store
