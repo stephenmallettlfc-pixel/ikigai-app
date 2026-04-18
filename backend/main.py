@@ -134,7 +134,12 @@ h1{{font-size:1.8rem;font-weight:700;margin-top:4px}}.subtitle{{font-size:.9rem;
 
 
 @app.route("/")
-def serve_frontend():
+def serve_landing():
+    return send_from_directory(app.static_folder, "landing.html")
+
+
+@app.route("/app")
+def serve_app():
     return send_from_directory(app.static_folder, "index.html")
 
 
