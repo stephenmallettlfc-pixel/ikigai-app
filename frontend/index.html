@@ -365,6 +365,47 @@
       text-align: center;
       padding: 40px 20px;
     }
+    /* ── Email capture ── */
+    .email-capture {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 480px;
+      gap: 18px;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .email-capture.visible { display: flex; }
+    .email-capture .ec-icon { font-size: 3.5rem; }
+    .email-capture h2 { font-size: 1.5rem; font-weight: 800; color: var(--text); }
+    .email-capture .ec-sub { font-size: 0.92rem; color: #555; line-height: 1.65; max-width: 360px; }
+    .ec-form { display: flex; gap: 10px; width: 100%; }
+    .ec-form input {
+      flex: 1;
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      padding: 12px 18px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+    }
+    .ec-form input:focus { border-color: var(--red); }
+    .ec-btn {
+      background: var(--red);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      padding: 12px 22px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .ec-btn:hover { background: #a93226; }
+    .ec-skip { font-size: 0.78rem; color: var(--muted); }
+    .ec-skip a { color: var(--muted); }
     .payment-wall.visible { display: flex; }
     .payment-wall .pw-icon { font-size: 3.5rem; margin-bottom: 4px; }
     .payment-wall h2 { font-size: 1.5rem; font-weight: 800; color: var(--text); line-height: 1.25; }
