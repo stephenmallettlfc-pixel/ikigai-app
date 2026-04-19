@@ -352,20 +352,7 @@
     .benefit-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
     .benefit-item strong { display: block; color: var(--text); font-size: 0.9rem; margin-bottom: 2px; }
     .benefit-item p { color: #666; margin: 0; }
-
-    /* ── Payment wall ── */
-    .payment-wall {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 480px;
-      gap: 20px;
-      text-align: center;
-      padding: 40px 20px;
-    }
-    /* ── Email capture ── */
+/* ── Email capture ── */
     .email-capture {
       display: none;
       flex-direction: column;
@@ -406,7 +393,30 @@
     .ec-btn:hover { background: #a93226; }
     .ec-skip { font-size: 0.78rem; color: var(--muted); }
     .ec-skip a { color: var(--muted); }
+    /* ── Payment wall ── */
+    .payment-wall {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 480px;
+      gap: 20px;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    
     .payment-wall.visible { display: flex; }
+    <div class="email-capture" id="email-capture">
+      <div class="ec-icon">✨</div>
+      <h2>Your Ikigai is ready!</h2>
+      <p class="ec-sub">Enter your email to save your results — we'll also send you occasional tips on living your ikigai.</p>
+      <div class="ec-form">
+        <input type="email" id="email-input" placeholder="your@email.com" />
+        <button class="ec-btn" id="email-btn" onclick="submitEmail()">Continue →</button>
+      </div>
+      <p class="ec-skip"><a href="#" onclick="skipEmail(event)">Skip and go straight to results</a></p>
+    </div>
     .payment-wall .pw-icon { font-size: 3.5rem; margin-bottom: 4px; }
     .payment-wall h2 { font-size: 1.5rem; font-weight: 800; color: var(--text); line-height: 1.25; }
     .payment-wall .pw-sub { font-size: 0.95rem; color: #555; line-height: 1.65; max-width: 360px; }
@@ -754,7 +764,39 @@
     const el = document.getElementById('typing-indicator');
     if (el) el.remove();
   }
+function showEmailCapture(html) {
+    document.getElementById('welcome').style.display = 'none';
+    const ec = document.getElementById('email-capture');
+    ec.classList.add('visible');
+    ec._pendingHtml = html;
+    document.getElementById('right-panel').scrollTop = 0;
+    document.getElementById('email-input').focus();
+  }
 
+  async function submitEmail() {
+    const btn = document.getElementById('email-btn');
+    const email = document.getElementById('email-input').value.trim();
+    if (!email) { document.getElementById('email-input').focus(); return; }
+    btn.textContent = 'Saving…';
+    btn.disabled = true;
+    try {
+      await fetch('/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+    } catch (e) {}
+    const html = document.getElementById('email-capture')._pendingHtml;
+    document.getElementById('email-capture').classList.remove('visible');
+    showEmailCapture(parsed.html);
+  }
+
+  function skipEmail(e) {
+    e.preventDefault();
+    const html = document.getElementById('email-capture')._pendingHtml;
+    document.getElementById('email-capture').classList.remove('visible');
+    storeAndShowPaymentWall(html);
+  }
   async function sendMessage() {
     const input = document.getElementById('input');
     const text = input.value.trim();
