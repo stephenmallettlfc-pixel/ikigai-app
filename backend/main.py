@@ -71,7 +71,7 @@ def generate_diagram_html(data):
         u = html_lib.escape(step.get("url","#"))
         steps_html += f'<div class="step-card"><div class="step-title"><a href="{u}" target="_blank">{t} &#8599;</a></div><p class="step-desc">{d}</p></div>'
 
-    return f"""<\!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/>
+    return f"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/>
 <title>{name} Ikigai</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;700&display=swap');
