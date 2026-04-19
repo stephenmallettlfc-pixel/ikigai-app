@@ -230,7 +230,7 @@ def chat():
                     before = buffer[:idx].strip()
                     if before:
                         yield f"data: {json.dumps({'type':'text','content':before})}\n\n"
-                    json_str = buffer[idx+12:].split("\n")[0].strip()
+                    json_str = buffer[idx+12:].strip()
                     try:
                         d = json.loads(json_str)
                         diagram_html = generate_diagram_html(d)
