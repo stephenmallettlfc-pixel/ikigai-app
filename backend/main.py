@@ -5,6 +5,8 @@ import json
 import os
 import uuid
 import stripe
+import urllib.request
+import base64
 from pathlib import Path
 from dotenv import load_dotenv
 import html as html_lib
@@ -19,6 +21,31 @@ PRICE_PENCE = 499  # £4.99
 
 # Temporary in-memory store for completed diagrams
 results_store = {}
+def add_to_mailchimp(email):
+    api_key = os.getenv("MAILCHIMP_API_KEY", "")
+    list_id = os.getenv("MAILCHIMP_LIST_ID", "")
+    if not api_key or not list_id:
+        return
+    server = api_key.split("-")[-1]
+    url = f"https://{server}.api.mailchimp.com/3.0/lists/{list_id}/members/"
+    data = json.dumps({"email_address": email, "status": "subscribed"}).encode()
+    credentials = base64.b64encode(f"anystring:{api_key}".encode()).decode()
+    req = urllib.request.Request(url, data=data,
+        headers={"Authorization": f"Basic {credentials}",
+                 "Content-Type": "application/json"}, method="POST")
+    try:
+        urllib.request.urlopen(req)
+    except:
+        pass
+
+
+@app.route("/subscribe", methods=["POST"])
+def subscribe():
+    data = request.get_json()
+    email = data.get("email", "").strip()
+    if email:
+        add_to_mailchimp(email)
+    return jsonify({"success": True})
 
 SYSTEM_PROMPT = """You are a warm, thoughtful ikigai guide. Ikigai (生き甲斐) is a Japanese concept meaning "reason for being" — the place where what you love, what you're good at, what the world needs, and what you can be paid for all overlap.
 
