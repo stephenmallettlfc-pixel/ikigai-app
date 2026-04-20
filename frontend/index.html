@@ -771,6 +771,12 @@ function showEmailCapture(html) {
     ec._pendingHtml = html;
     document.getElementById('right-panel').scrollTop = 0;
     document.getElementById('email-input').focus();
+    if (window.innerWidth <= 768) {
+      addMessage('claude', '✨ Your Ikigai is ready! Scroll down below the chat to enter your email and unlock your personalised diagram.');
+      setTimeout(() => {
+        document.getElementById('right-panel').scrollIntoView({ behavior: 'smooth' });
+      }, 600);
+    }
   }
 
   async function submitEmail() {
