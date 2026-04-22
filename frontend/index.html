@@ -37,6 +37,7 @@
       height: 100vh;
     }
 
+    /* ── Header ── */
     header {
       background: white;
       border-bottom: 1px solid var(--border);
@@ -74,12 +75,14 @@
     }
     .new-btn:hover { border-color: #bbb; color: var(--text); }
 
+    /* ── Layout ── */
     .layout {
       display: flex;
       flex: 1;
       min-height: 0;
     }
 
+    /* ── Chat panel ── */
     .chat-panel {
       width: 480px;
       flex-shrink: 0;
@@ -156,6 +159,7 @@
     .typing-dot:nth-child(3) { animation-delay: 0.4s; }
     @keyframes blink { 0%,80%,100% { opacity:0.2 } 40% { opacity:1 } }
 
+    /* ── Input bar ── */
     .input-bar {
       padding: 16px;
       border-top: 1px solid var(--border);
@@ -194,6 +198,7 @@
     .send-btn:disabled { background: #ddd; cursor: not-allowed; }
     .send-btn svg { fill: white; }
 
+    /* ── Right panel ── */
     .right-panel {
       flex: 1;
       overflow-y: auto;
@@ -203,6 +208,7 @@
       align-items: center;
     }
 
+    /* ── Welcome state ── */
     .welcome {
       display: flex;
       flex-direction: column;
@@ -329,6 +335,7 @@
       padding: 5px 14px;
     }
 
+    /* Benefits */
     .welcome-benefits {
       background: white;
       border: 1px solid var(--border);
@@ -354,6 +361,7 @@
     .benefit-item strong { display: block; color: var(--text); font-size: 0.9rem; margin-bottom: 2px; }
     .benefit-item p { color: #666; margin: 0; }
 
+    /* Start CTA box */
     .welcome-start-box {
       width: 100%;
       background: linear-gradient(135deg, #c0392b, #e74c3c);
@@ -369,6 +377,7 @@
     .start-text strong { display: block; font-size: 1rem; margin-bottom: 4px; }
     .start-text p { font-size: 0.85rem; opacity: 0.88; margin: 0; line-height: 1.5; }
 
+    /* ── Progress tracker ── */
     .progress-bar {
       display: none;
       width: 100%;
@@ -386,6 +395,7 @@
     .progress-step.done { background: var(--red); }
     .progress-step.active { background: #f1948a; }
 
+    /* ── Diagram container ── */
     .diagram-container {
       display: none;
       width: 100%;
@@ -398,6 +408,7 @@
       border-radius: 16px;
     }
 
+    /* ── Payment panel ── */
     .payment-panel {
       display: none;
       margin-top: 24px;
@@ -408,7 +419,10 @@
       text-align: center;
     }
     .payment-panel.visible { display: block; }
-    .payment-icon { font-size: 2.4rem; margin-bottom: 12px; }
+    .payment-icon {
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+    }
     .payment-content h3 {
       font-size: 1.3rem;
       font-weight: 700;
@@ -432,7 +446,11 @@
       margin-bottom: 24px;
       text-align: left;
     }
-    .payment-includes li { font-size: 0.88rem; color: #333; font-weight: 500; }
+    .payment-includes li {
+      font-size: 0.88rem;
+      color: #333;
+      font-weight: 500;
+    }
     .pay-btn {
       display: inline-block;
       background: var(--red);
@@ -450,8 +468,18 @@
     .pay-btn:hover { background: #a93226; transform: translateY(-1px); }
     .pay-btn:active { transform: translateY(0); }
     .pay-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
-    .payment-note { font-size: 0.75rem; color: #aaa; margin-top: 0; }
+    .payment-note {
+      font-size: 0.75rem;
+      color: #aaa;
+      margin-top: 0;
+    }
+    .email-capture { margin-bottom: 16px; text-align: left; max-width: 360px; margin-left: auto; margin-right: auto; }
+    .email-label { display: block; font-size: 0.82rem; font-weight: 600; color: #444; margin-bottom: 6px; }
+    .email-optional { font-weight: 400; color: #aaa; }
+    .email-input { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 14px; font-family: inherit; font-size: 0.88rem; outline: none; background: var(--bg); color: var(--text); }
+    .email-input:focus { border-color: var(--red); }
 
+    /* ── Responsive ── */
     @media (max-width: 768px) {
       .layout { flex-direction: column; }
       .chat-panel { width: 100%; border-right: none; border-bottom: 1px solid var(--border); height: 55vh; }
@@ -472,6 +500,7 @@
 
 <div class="layout">
 
+  <!-- Chat -->
   <div class="chat-panel">
     <div class="messages" id="messages"></div>
     <div class="input-bar">
@@ -482,6 +511,7 @@
     </div>
   </div>
 
+  <!-- Right panel -->
   <div class="right-panel" id="right-panel">
     <div class="progress-bar" id="progress-bar">
       <div class="progress-step" id="step-love" title="What You Love"></div>
@@ -492,42 +522,110 @@
     </div>
 
     <div class="welcome" id="welcome">
+
+      <!-- Hero -->
       <div class="welcome-hero">
         <div class="big-kanji">生き甲斐</div>
         <h2>Discover Your Reason for Being</h2>
-        <p class="tagline">Most people spend years wondering what they should do with their life. Ikigai (pronounced <em>ee-kee-guy</em>) is a Japanese philosophy that cuts through the noise — helping you find the <strong>exact point</strong> where your passion, your talents, your purpose, and your income potential all meet.</p>
+        <p class="tagline">
+          Most people spend years wondering what they should do with their life.
+          Ikigai (pronounced <em>ee-kee-guy</em>) is a Japanese philosophy that cuts through the noise —
+          helping you find the <strong>exact point</strong> where your passion, your talents,
+          your purpose, and your income potential all meet.
+        </p>
         <div class="hero-time">⏱ Takes about 10–15 minutes &nbsp;·&nbsp; Free conversation &nbsp;·&nbsp; Full report £4.99</div>
       </div>
 
+      <!-- Benefits -->
       <div class="welcome-benefits">
         <h3>Why people do this</h3>
         <div class="benefit-list">
-          <div class="benefit-item"><div class="benefit-icon">🧭</div><div><strong>Feel clear about your direction</strong><p>Stop second-guessing your career path. Get a clear, written picture of where your strengths and passions meet real opportunity.</p></div></div>
-          <div class="benefit-item"><div class="benefit-icon">💡</div><div><strong>Uncover what makes you unique</strong><p>Most people undersell themselves. This conversation surfaces skills and qualities you might not have thought to put on a CV.</p></div></div>
-          <div class="benefit-item"><div class="benefit-icon">🚀</div><div><strong>Walk away with a concrete action plan</strong><p>You'll finish with 5 specific, hand-picked next steps — real websites, companies, and platforms matched to your ikigai.</p></div></div>
-          <div class="benefit-item"><div class="benefit-icon">🎯</div><div><strong>Stop drifting, start doing</strong><p>Whether you're changing careers, starting something new, or just feeling stuck — this gives you a meaningful starting point.</p></div></div>
+          <div class="benefit-item">
+            <div class="benefit-icon">🧭</div>
+            <div>
+              <strong>Feel clear about your direction</strong>
+              <p>Stop second-guessing your career path. Get a clear, written picture of where your strengths and passions meet real opportunity.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">💡</div>
+            <div>
+              <strong>Uncover what makes you unique</strong>
+              <p>Most people undersell themselves. This conversation surfaces skills and qualities you might not have thought to put on a CV.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">🚀</div>
+            <div>
+              <strong>Walk away with a concrete action plan</strong>
+              <p>You'll finish with 5 specific, hand-picked next steps — real websites, companies, and platforms matched to your ikigai.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">🎯</div>
+            <div>
+              <strong>Stop drifting, start doing</strong>
+              <p>Whether you're changing careers, starting something new, or just feeling stuck — this gives you a meaningful starting point.</p>
+            </div>
+          </div>
         </div>
       </div>
 
+      <!-- Four areas -->
       <div class="welcome-what">
         <h3>The four areas we'll explore together</h3>
         <div class="four-areas">
-          <div class="area-pill area-love"><span class="area-icon">❤️</span><div><span class="area-name">What You Love</span><span class="area-desc">Activities that light you up and make time fly</span></div></div>
-          <div class="area-pill area-good"><span class="area-icon">⭐</span><div><span class="area-name">What You're Good At</span><span class="area-desc">Skills and strengths that come naturally to you</span></div></div>
-          <div class="area-pill area-needs"><span class="area-icon">🌍</span><div><span class="area-name">What the World Needs</span><span class="area-desc">Problems you care about and want to help solve</span></div></div>
-          <div class="area-pill area-paid"><span class="area-icon">💰</span><div><span class="area-name">What You Can Be Paid For</span><span class="area-desc">Skills or services people would pay for</span></div></div>
+          <div class="area-pill area-love">
+            <span class="area-icon">❤️</span>
+            <div>
+              <span class="area-name">What You Love</span>
+              <span class="area-desc">Activities that light you up and make time fly</span>
+            </div>
+          </div>
+          <div class="area-pill area-good">
+            <span class="area-icon">⭐</span>
+            <div>
+              <span class="area-name">What You're Good At</span>
+              <span class="area-desc">Skills and strengths that come naturally to you</span>
+            </div>
+          </div>
+          <div class="area-pill area-needs">
+            <span class="area-icon">🌍</span>
+            <div>
+              <span class="area-name">What the World Needs</span>
+              <span class="area-desc">Problems you care about and want to help solve</span>
+            </div>
+          </div>
+          <div class="area-pill area-paid">
+            <span class="area-icon">💰</span>
+            <div>
+              <span class="area-name">What You Can Be Paid For</span>
+              <span class="area-desc">Skills or services people would pay for</span>
+            </div>
+          </div>
         </div>
       </div>
 
+      <!-- How it works -->
       <div class="welcome-how">
         <h3>How it works — 3 simple steps</h3>
         <div class="how-steps">
-          <div class="how-step"><div class="step-num">1</div><div><strong>Have a conversation.</strong> Your AI guide will ask you simple, friendly questions — just answer in your own words, as if you're talking to a trusted friend. There are no right or wrong answers.</div></div>
-          <div class="how-step"><div class="step-num">2</div><div><strong>Watch it take shape.</strong> As you talk, your guide reflects back what it's hearing and gently explores where your answers overlap. A progress bar above will show where you are.</div></div>
-          <div class="how-step"><div class="step-num">3</div><div><strong>Get your personalised result.</strong> Your full Ikigai diagram appears here — complete with your four intersections (Passion, Mission, Vocation, Profession) and 5 specific next steps matched to you. Unlock and save your full report for just <strong>£4.99</strong>.</div></div>
+          <div class="how-step">
+            <div class="step-num">1</div>
+            <div><strong>Have a conversation.</strong> Your AI guide will ask you simple, friendly questions — just answer in your own words, as if you're talking to a trusted friend. There are no right or wrong answers.</div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">2</div>
+            <div><strong>Watch it take shape.</strong> As you talk, your guide reflects back what it's hearing and gently explores where your answers overlap. A progress bar above will show where you are.</div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">3</div>
+            <div><strong>Get your personalised result.</strong> Your full Ikigai diagram appears here — complete with your four intersections (Passion, Mission, Vocation, Profession) and 5 specific next steps matched to you. Unlock and save your full report for just <strong>£4.99</strong>.</div>
+          </div>
         </div>
       </div>
 
+      <!-- CTA -->
       <div class="welcome-start-box">
         <div class="start-arrow">👈</div>
         <div class="start-text">
@@ -535,22 +633,30 @@
           <p>Look at the chat on the left — just type your first reply to begin. It really is that simple.</p>
         </div>
       </div>
+
     </div>
 
     <div class="diagram-container" id="diagram-container">
       <iframe id="diagram-frame" title="Your Ikigai Diagram"></iframe>
+
       <div class="payment-panel" id="payment-panel">
         <div class="payment-icon">✨</div>
         <div class="payment-content">
           <h3>Your Ikigai is ready — save it for keeps</h3>
-          <p>You've just completed a personalised Ikigai discovery. Your full report includes your written Ikigai statement, your four intersections (Passion, Mission, Vocation &amp; Profession), and 5 specific next steps with real websites chosen just for you.</p>
+          <p>Your full report includes your written Ikigai statement, your four intersections, and 5 specific next steps with real websites chosen just for you.</p>
           <ul class="payment-includes">
             <li>✅ Your personalised Ikigai statement</li>
             <li>✅ Passion, Mission, Vocation &amp; Profession mapped out</li>
             <li>✅ 5 tailored next steps with real platforms &amp; companies</li>
-            <li>✅ Downloadable PDF to keep forever</li>
+            <li>✅ Yours to keep and refer back to</li>
           </ul>
-          <button class="pay-btn" id="pay-btn" onclick="savePaidResults()">Save my full report — £4.99</button>
+          <div class="email-capture" id="email-capture">
+            <label class="email-label" for="result-email">Get a copy sent to your email <span class="email-optional">(optional)</span></label>
+            <input type="email" id="result-email" class="email-input" placeholder="your@email.com" autocomplete="email"/>
+          </div>
+          <button class="pay-btn" id="pay-btn" onclick="savePaidResults()">
+            Save my full report — £4.99
+          </button>
           <p class="payment-note">Secure payment via Stripe · One-time fee · No subscription</p>
         </div>
       </div>
@@ -563,8 +669,8 @@
   let messages = [];
   let isStreaming = false;
   let diagramGenerated = false;
-  let currentDiagramHtml = '';
 
+  // Progress tracking — simple keyword heuristics
   const progressKeywords = {
     'step-love':      ['love', 'enjoy', 'passion', 'excited', 'lose track of time'],
     'step-good':      ['good at', "you're great", 'strength', 'skill', 'talent', 'naturally'],
@@ -595,12 +701,15 @@
     const container = document.getElementById('messages');
     const div = document.createElement('div');
     div.className = `message ${role}`;
+
     const avatar = document.createElement('div');
     avatar.className = `avatar ${role}`;
     avatar.textContent = role === 'claude' ? '生' : 'S';
+
     const bubble = document.createElement('div');
     bubble.className = 'bubble';
     bubble.textContent = content;
+
     div.appendChild(avatar);
     div.appendChild(bubble);
     container.appendChild(div);
@@ -613,12 +722,15 @@
     const div = document.createElement('div');
     div.className = 'message claude';
     div.id = 'typing-indicator';
+
     const avatar = document.createElement('div');
     avatar.className = 'avatar claude';
     avatar.textContent = '生';
+
     const bubble = document.createElement('div');
     bubble.className = 'bubble';
     bubble.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+
     div.appendChild(avatar);
     div.appendChild(bubble);
     container.appendChild(div);
@@ -634,33 +746,43 @@
     const input = document.getElementById('input');
     const text = input.value.trim();
     if (!text || isStreaming) return;
+
     input.value = '';
     autoResize(input);
+
     messages.push({ role: 'user', content: text });
     addMessage('user', text);
+
     isStreaming = true;
     document.getElementById('send-btn').disabled = true;
     addTypingIndicator();
+
     try {
       const response = await fetch('/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages }),
       });
+
       if (!response.ok) {
         const err = await response.json();
         throw new Error(err.detail || 'Server error');
       }
+
       removeTypingIndicator();
       const bubble = addMessage('claude', '');
       let fullText = '';
+
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
+
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
+
         const chunk = decoder.decode(value);
         const lines = chunk.split('\n');
+
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             const data = line.slice(6);
@@ -676,35 +798,48 @@
                 showDiagram(parsed.html);
                 markProgressDone();
               }
-            } catch (e) {}
+            } catch (e) { /* skip malformed */ }
           }
         }
       }
+
       messages.push({ role: 'assistant', content: fullText });
+
     } catch (err) {
       removeTypingIndicator();
       addMessage('claude', `Sorry, something went wrong: ${err.message}. Please check your API key in the .env file and try again.`);
     }
+
     isStreaming = false;
     document.getElementById('send-btn').disabled = false;
     document.getElementById('input').focus();
   }
+
+  let currentDiagramHtml = '';
 
   function showDiagram(html) {
     const welcome = document.getElementById('welcome');
     const container = document.getElementById('diagram-container');
     const frame = document.getElementById('diagram-frame');
     const paymentPanel = document.getElementById('payment-panel');
+
     currentDiagramHtml = html;
+
     welcome.style.display = 'none';
     container.classList.add('visible');
+
     const blob = new Blob([html], { type: 'text/html' });
     frame.src = URL.createObjectURL(blob);
     diagramGenerated = true;
+
+    // Show payment panel
     paymentPanel.classList.add('visible');
+
+    // Add transition message in chat
     setTimeout(() => {
       addMessage('claude', '✨ Your Ikigai is ready! Take a look on the right — I\'ve mapped out your personalised diagram, your four intersections (Passion, Mission, Vocation and Profession), and 5 specific next steps chosen just for you.\n\nTo save and keep your full report, tap the button below the diagram. It\'s a one-time payment of £4.99 — no subscription, no catch.');
     }, 600);
+
     document.getElementById('right-panel').scrollTop = 0;
   }
 
@@ -712,7 +847,9 @@
     const btn = document.getElementById('pay-btn');
     btn.disabled = true;
     btn.textContent = 'Preparing checkout…';
+
     try {
+      // Store the result on the server
       const storeRes = await fetch('/store-result', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -720,12 +857,16 @@
       });
       const storeData = await storeRes.json();
       const resultId = storeData.result_id;
+
+      // Create a Stripe checkout session (pass email if provided)
+      const emailVal = (document.getElementById('result-email').value || '').trim();
       const checkoutRes = await fetch('/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ result_id: resultId }),
+        body: JSON.stringify({ result_id: resultId, email: emailVal || null }),
       });
       const checkoutData = await checkoutRes.json();
+
       if (checkoutData.url) {
         window.location.href = checkoutData.url;
       } else {
@@ -758,7 +899,9 @@
     document.getElementById('diagram-container').classList.remove('visible');
     document.getElementById('payment-panel').classList.remove('visible');
     document.getElementById('progress-bar').classList.remove('visible');
-    document.querySelectorAll('.progress-step').forEach(s => { s.classList.remove('done', 'active'); });
+    document.querySelectorAll('.progress-step').forEach(s => {
+      s.classList.remove('done', 'active');
+    });
     diagramGenerated = false;
     isStreaming = false;
     document.getElementById('send-btn').disabled = false;
@@ -766,13 +909,22 @@
   }
 
   function startConversation() {
-    const openingMessage = `Welcome! 👋 I'm your personal Ikigai guide.\n\nOver the next 10–15 minutes, I'll ask you a series of simple questions to help you discover your ikigai — your unique reason for being. By the end, you'll have a beautiful personalised diagram and a clear set of next steps to move forward with.\n\nThere are no right or wrong answers — just be yourself and answer as honestly as you can.\n\nTo get us started: what's your name?`;
-    addMessage('claude', openingMessage);
+    // Show a warm, hardcoded opening message instantly — no API call needed
+    const openingMessage = `Welcome! 👋 I'm your personal Ikigai guide.
+
+Over the next 10–15 minutes, I'll ask you a series of simple questions to help you discover your ikigai — your unique reason for being. By the end, you'll have a beautiful personalised diagram and a clear set of next steps to move forward with.
+
+There are no right or wrong answers — just be yourself and answer as honestly as you can.
+
+To get us started: what's your name?`;
+
+    const bubble = addMessage('claude', openingMessage);
     messages.push({ role: 'assistant', content: openingMessage });
     document.getElementById('input').focus();
   }
 
+  // Auto-start when page loads
   window.addEventListener('load', startConversation);
 </script>
 </body>
-  </html>
+</html>
