@@ -186,6 +186,19 @@ def store_result():
     results_store[result_id] = html
     return jsonify({"result_id": result_id})
 
+@app.route("/claim-result", methods=["POST"])
+def claim_result():
+    data = request.get_json()
+    result_id = data.get("result_id", "")
+    email = data.get("email", "").strip()
+    if email:
+        add_to_mailchimp(email)
+    diagram_html = results_store.get(result_id, "")
+    if not diagram_html:
+        return jsonify({"error": "Result not found or expired"}), 404
+    return jsonify({"html": diagram_html})
+
+
 
 @app.route("/create-checkout-session", methods=["POST"])
 def create_checkout_session():
