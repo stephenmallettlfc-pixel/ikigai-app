@@ -15,15 +15,20 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Serif+JP:wght@400;700&display=swap');
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --red: #c0392b; --red-light: #e74c3c; --bg: #faf9f7; --text: #1a1a2e; --muted: #888; --border: #ede9e3; }
+    :root {
+      --red: #c0392b; --red-light: #e74c3c;
+      --bg: #faf9f7; --text: #1a1a2e; --muted: #888; --border: #ede9e3;
+    }
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
     nav { position: sticky; top: 0; z-index: 100; background: rgba(250,249,247,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 14px 40px; display: flex; align-items: center; justify-content: space-between; }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
     .nav-kanji { font-family: 'Noto Serif JP', serif; font-size: 1.4rem; color: var(--red); }
     .nav-name { font-size: 1rem; font-weight: 700; }
     .nav-cta { background: var(--red); color: white; border: none; padding: 10px 22px; border-radius: 100px; font-family: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.15s, transform 0.15s; }
     .nav-cta:hover { background: var(--red-light); transform: translateY(-1px); }
+
     .hero { text-align: center; padding: 90px 24px 80px; background: linear-gradient(180deg, #fff5f5 0%, var(--bg) 100%); }
     .hero-badge { display: inline-block; background: white; border: 1px solid #f5cba7; color: #a04000; font-size: 0.78rem; font-weight: 600; padding: 5px 14px; border-radius: 100px; margin-bottom: 24px; letter-spacing: 0.05em; }
     .hero-kanji { font-family: 'Noto Serif JP', serif; font-size: 5rem; color: var(--red); display: block; margin-bottom: 16px; opacity: 0.15; line-height: 1; }
@@ -35,16 +40,19 @@
     .hero-meta { margin-top: 18px; font-size: 0.82rem; color: var(--muted); }
     .pricing-pill { display: inline-block; margin-top: 12px; background: white; border: 1px solid var(--border); border-radius: 100px; padding: 6px 16px; font-size: 0.8rem; color: #555; }
     .pricing-pill strong { color: var(--red); }
+
     section { padding: 80px 24px; }
     .container { max-width: 900px; margin: 0 auto; }
     .section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
     .section-title { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 800; line-height: 1.25; letter-spacing: -0.02em; margin-bottom: 16px; }
     .section-sub { font-size: 1rem; color: #555; max-width: 560px; line-height: 1.7; }
+
     .problem { background: white; }
     .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 40px; }
     .problem-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 22px; font-size: 0.9rem; color: #444; line-height: 1.6; }
     .problem-card .p-icon { font-size: 1.6rem; margin-bottom: 10px; display: block; }
     .problem-card strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 0.95rem; }
+
     .ikigai-explain { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 48px; }
     .ikigai-diagram { width: 100%; max-width: 360px; margin: 0 auto; }
     .four-areas { display: flex; flex-direction: column; gap: 12px; }
@@ -56,17 +64,20 @@
     .a-good { background: #eaf4fb; } .a-good strong { color: #2471a3; }
     .a-needs { background: #eafaf1; } .a-needs strong { color: #1e8449; }
     .a-paid { background: #fdf2e9; } .a-paid strong { color: #a04000; }
+
     .how { background: white; }
     .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 48px; }
     .step { text-align: center; padding: 28px 20px; background: var(--bg); border-radius: 20px; border: 1px solid var(--border); }
     .step-num { width: 44px; height: 44px; border-radius: 50%; background: var(--red); color: white; font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
     .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
     .step p { font-size: 0.85rem; color: #555; line-height: 1.6; }
+
     .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 48px; }
     .benefit { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
     .benefit .b-icon { font-size: 1.8rem; margin-bottom: 12px; display: block; }
     .benefit h3 { font-size: 0.98rem; font-weight: 700; margin-bottom: 6px; }
     .benefit p { font-size: 0.85rem; color: #555; line-height: 1.6; }
+
     .get { background: white; }
     .get-box { background: linear-gradient(135deg, #fff5f5, #fff8f0); border: 1.5px solid #f5cba7; border-radius: 20px; padding: 40px; margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
     .get-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
@@ -74,6 +85,8 @@
     .get-list li::before { content: "✓"; color: var(--red); font-weight: 700; font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
     .get-pricing-note { margin-top: 20px; padding: 12px 16px; background: white; border-radius: 12px; border: 1px solid var(--border); font-size: 0.82rem; color: #555; line-height: 1.5; }
     .get-pricing-note strong { color: var(--red); }
+
+    /* ── Sample result preview ── */
     .get-preview { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
     .prev-top-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 2px; }
     .prev-name { font-size: 1rem; font-weight: 800; color: var(--text); margin-bottom: 10px; }
@@ -90,117 +103,176 @@
     .prev-steps { display: flex; flex-wrap: wrap; gap: 5px; }
     .prev-steps a { font-size: 0.68rem; font-weight: 600; color: var(--red); background: #fdecea; border-radius: 100px; padding: 3px 9px; text-decoration: none; }
     .prev-real-tag { display: inline-block; margin-top: 10px; font-size: 0.65rem; color: var(--muted); font-style: italic; }
+
     .final-cta { text-align: center; background: linear-gradient(135deg, #c0392b, #e74c3c); color: white; padding: 80px 24px; }
     .final-cta h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; }
     .final-cta p { font-size: 1rem; opacity: 0.88; max-width: 480px; margin: 0 auto 36px; line-height: 1.7; }
     .final-btn { display: inline-block; background: white; color: var(--red); text-decoration: none; padding: 16px 44px; border-radius: 100px; font-size: 1.05rem; font-weight: 700; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
     .final-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.25); }
     .final-meta { margin-top: 16px; font-size: 0.82rem; opacity: 0.75; }
+
     footer { text-align: center; padding: 32px 24px; font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--border); }
+
     @media (max-width: 700px) {
-      nav { padding: 14px 20px; } .hero { padding: 60px 20px 60px; } .hero-kanji { font-size: 3.5rem; }
-      .ikigai-explain { grid-template-columns: 1fr; } .ikigai-diagram { display: none; }
-      .get-box { grid-template-columns: 1fr; } .get-preview { display: none; }
+      nav { padding: 14px 20px; }
+      .hero { padding: 60px 20px 60px; }
+      .hero-kanji { font-size: 3.5rem; }
+      .ikigai-explain { grid-template-columns: 1fr; }
+      .ikigai-diagram { display: none; }
+      .get-box { grid-template-columns: 1fr; }
+      .get-preview { display: none; }
     }
   </style>
 </head>
 <body>
+
 <nav>
-  <a href="/" class="nav-logo"><span class="nav-kanji">生き甲斐</span><span class="nav-name">Ikigai Discovery</span></a>
+  <a href="/" class="nav-logo">
+    <span class="nav-kanji">生き甲斐</span>
+    <span class="nav-name">Ikigai Discovery</span>
+  </a>
   <a href="/app" class="nav-cta">Start Free →</a>
 </nav>
+
 <section class="hero">
   <div class="hero-badge">✨ Powered by Claude AI</div>
   <span class="hero-kanji">生き甲斐</span>
-  <h1>Stop drifting. Find your <span>reason for being.</span></h1>
-  <p class="hero-sub">A 10-minute guided conversation that reveals the exact point where your passion, your talents, your purpose, and your earning potential all meet.</p>
-  <a href="/app" class="hero-btn">Discover My Ikigai — It's Free</a>
-  <p class="hero-meta">No sign-up required &nbsp;·&nbsp; Takes 10–15 minutes &nbsp;·&nbsp; 100% personalised</p>
-  <p class="pricing-pill">The conversation is free &nbsp;·&nbsp; Save your full report for <strong>£4.99</strong></p>
+  <h1>Lost. Searching. <span>You'll be amazed where this leads.</span></h1>
+  <p class="hero-sub">A free 15-minute AI-guided conversation that maps the exact point where your passion, your skills, your purpose, and your potential all meet — and shows you exactly what to do next.</p>
+  <a href="/app" class="hero-btn">Find My Ikigai — It's Free</a>
+  <p class="hero-meta">No sign-up &nbsp;·&nbsp; No credit card &nbsp;·&nbsp; 100% free &nbsp;·&nbsp; Takes 15 minutes</p>
 </section>
-<section class="problem"><div class="container">
-  <p class="section-label">Sound familiar?</p>
-  <h2 class="section-title">Most people feel stuck — and don't know why</h2>
-  <p class="section-sub">You're not lazy or directionless. You just haven't found the intersection yet.</p>
-  <div class="problem-grid">
-    <div class="problem-card"><span class="p-icon">😔</span><strong>You're good at your job but it doesn't fulfil you</strong>You do it well, but something feels missing. You wonder if this is really it.</div>
-    <div class="problem-card"><span class="p-icon">🤔</span><strong>You have passions but can't see how they pay</strong>The things you love feel like hobbies, not careers. Nobody ever told you otherwise.</div>
-    <div class="problem-card"><span class="p-icon">😰</span><strong>You want to make a difference but don't know where to start</strong>You care about the world but feel too small or too busy to do anything about it.</div>
-    <div class="problem-card"><span class="p-icon">🔄</span><strong>You keep changing direction without getting anywhere</strong>New plan every year. Same feeling of not quite being in the right place.</div>
-  </div>
-</div></section>
-<section><div class="container">
-  <p class="section-label">The solution</p>
-  <h2 class="section-title">Ikigai — a Japanese framework for a life well lived</h2>
-  <p class="section-sub">Ikigai (pronounced <em>ee-kee-guy</em>) means "reason for being." It's the overlap of four things that, together, point to your most fulfilling path.</p>
-  <div class="ikigai-explain">
-    <div class="four-areas">
-      <div class="area-row a-love"><span class="a-icon">❤️</span><div><strong>What You Love</strong><p>The activities that make you lose track of time — your genuine passions</p></div></div>
-      <div class="area-row a-good"><span class="a-icon">⭐</span><div><strong>What You're Good At</strong><p>Skills that feel natural to you but aren't obvious to everyone</p></div></div>
-      <div class="area-row a-needs"><span class="a-icon">🌍</span><div><strong>What the World Needs</strong><p>The problems you care about and want to help solve</p></div></div>
-      <div class="area-row a-paid"><span class="a-icon">💰</span><div><strong>What You Can Be Paid For</strong><p>What people value enough to pay you for</p></div></div>
+
+<section class="problem">
+  <div class="container">
+    <p class="section-label">Sound familiar?</p>
+    <h2 class="section-title">You know there's more. You just can't see it yet.</h2>
+    <p class="section-sub">That feeling of being lost — of searching for something you can't quite name — isn't a flaw. It's a signal. And it means you're closer than you think.</p>
+    <div class="problem-grid">
+      <div class="problem-card"><span class="p-icon">😔</span><strong>You're good at your job but it doesn't fulfil you</strong>You do it well, but something feels missing. Deep down you wonder if this is really it.</div>
+      <div class="problem-card"><span class="p-icon">🤔</span><strong>You have passions but can't see how they pay</strong>The things you love feel like hobbies, not careers. Nobody ever connected those dots for you.</div>
+      <div class="problem-card"><span class="p-icon">😰</span><strong>You want to make a difference but don't know where to start</strong>You care deeply but feel too uncertain about direction to take the first step.</div>
+      <div class="problem-card"><span class="p-icon">🔄</span><strong>You keep searching without arriving</strong>New plan every year. Same feeling of not quite being in the right place. The answer is closer than you realise.</div>
     </div>
-    <div class="ikigai-diagram"><svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width:100%"><defs><radialGradient id="gL"><stop offset="0%" stop-color="#ff8a80"/><stop offset="100%" stop-color="#e53935" stop-opacity=".75"/></radialGradient><radialGradient id="gG"><stop offset="0%" stop-color="#82b1ff"/><stop offset="100%" stop-color="#1565c0" stop-opacity=".75"/></radialGradient><radialGradient id="gN"><stop offset="0%" stop-color="#69f0ae"/><stop offset="100%" stop-color="#2e7d32" stop-opacity=".75"/></radialGradient><radialGradient id="gP"><stop offset="0%" stop-color="#ffd180"/><stop offset="100%" stop-color="#e65100" stop-opacity=".75"/></radialGradient></defs><circle cx="155" cy="155" r="110" fill="url(#gL)" fill-opacity=".4"/><circle cx="245" cy="155" r="110" fill="url(#gG)" fill-opacity=".4"/><circle cx="155" cy="245" r="110" fill="url(#gN)" fill-opacity=".4"/><circle cx="245" cy="245" r="110" fill="url(#gP)" fill-opacity=".4"/><circle cx="200" cy="200" r="42" fill="white" fill-opacity=".9"/><text x="200" y="196" text-anchor="middle" font-family="'Noto Serif JP',serif" font-size="13" font-weight="700" fill="#c0392b">生き甲斐</text><text x="200" y="212" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#c0392b" letter-spacing=".1em">IKIGAI</text><text x="200" y="82" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#6c3483" letter-spacing=".06em">PASSION</text><text x="82" y="204" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#0e6655" transform="rotate(-90,82,204)" letter-spacing=".06em">MISSION</text><text x="318" y="204" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#1a5276" transform="rotate(90,318,204)" letter-spacing=".06em">PROFESSION</text><text x="200" y="318" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#7d6608" letter-spacing=".06em">VOCATION</text></svg></div>
   </div>
-</div></section>
-<section class="how"><div class="container">
-  <p class="section-label">How it works</p>
-  <h2 class="section-title">Three simple steps to clarity</h2>
-  <p class="section-sub">No forms to fill in. No personality tests. Just a natural conversation.</p>
-  <div class="steps">
-    <div class="step"><div class="step-num">1</div><h3>Have a conversation</h3><p>Your AI guide asks you simple, friendly questions about your life, passions, and skills. Just answer honestly — there are no wrong answers.</p></div>
-    <div class="step"><div class="step-num">2</div><h3>Watch it take shape</h3><p>As you talk, your guide reflects back what it's hearing and explores where your answers overlap, building your unique ikigai picture.</p></div>
-    <div class="step"><div class="step-num">3</div><h3>Get your results</h3><p>Your personalised diagram, four intersections, and 5 specific next steps appear instantly. Save your full report for just £4.99 — no subscription, ever.</p></div>
-  </div>
-</div></section>
-<section><div class="container">
-  <p class="section-label">Why it works</p>
-  <h2 class="section-title">More than just a personality quiz</h2>
-  <p class="section-sub">Most career tools give you generic answers. This gives you a genuine conversation and something you can actually act on.</p>
-  <div class="benefits-grid">
-    <div class="benefit"><span class="b-icon">🧭</span><h3>Real clarity, not vague advice</h3><p>You'll walk away with a written statement of your ikigai — specific to you, not a generic archetype or colour.</p></div>
-    <div class="benefit"><span class="b-icon">💡</span><h3>Uncovers what you've been missing</h3><p>Most people undersell themselves. The conversation draws out strengths and passions you've never thought to mention on a CV.</p></div>
-    <div class="benefit"><span class="b-icon">🚀</span><h3>Actionable next steps</h3><p>5 hand-picked resources, companies, and platforms matched to your unique result — so you know exactly what to do next.</p></div>
-    <div class="benefit"><span class="b-icon">🤝</span><h3>Like talking to a trusted friend</h3><p>Warm, curious, and non-judgemental. Claude takes its time, never rushes, and genuinely celebrates what you share.</p></div>
-  </div>
-</div></section>
-<section class="get"><div class="container">
-  <p class="section-label">What you receive</p>
-  <h2 class="section-title">Your personalised Ikigai report</h2>
-  <p class="section-sub">At the end of your conversation you'll receive everything you need to take your next step with confidence.</p>
-  <div class="get-box">
-    <div>
-      <ul class="get-list">
-        <li>A beautiful, personalised Ikigai diagram showing all four areas</li>
-        <li>Your written Ikigai statement — your unique reason for being</li>
-        <li>Your Passion, Mission, Vocation, and Profession mapped out clearly</li>
-        <li>5 specific next steps with real websites tailored to you</li>
-        <li>A conversation you can return to and build on</li>
-      </ul>
-      <div class="get-pricing-note">💬 The conversation is <strong>completely free</strong> — no sign-up, no card needed.<br>Unlock and save your full personalised report for just <strong>£4.99</strong> · one-time · no subscription.</div>
-    </div>
-    <div class="get-preview">
-      <div class="prev-top-label">Sample result</div>
-      <div class="prev-name">Sarah's Ikigai</div>
-      <div class="prev-statement">"Using your talent for translating complex ideas into human stories to help mission-driven organisations connect with the people they're trying to reach."</div>
-      <div class="prev-grid">
-        <div class="prev-int prev-passion"><span>Passion</span><p>Storytelling &amp; writing</p></div>
-        <div class="prev-int prev-mission"><span>Mission</span><p>Purpose-driven comms</p></div>
-        <div class="prev-int prev-profession"><span>Profession</span><p>Content strategy</p></div>
-        <div class="prev-int prev-vocation"><span>Vocation</span><p>Climate &amp; social causes</p></div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label">The solution</p>
+    <h2 class="section-title">Ikigai — a Japanese framework for a life well lived</h2>
+    <p class="section-sub">Ikigai (pronounced <em>ee-kee-guy</em>) means "reason for being." It's the overlap of four things that, together, point to your most fulfilling path.</p>
+    <div class="ikigai-explain">
+      <div class="four-areas">
+        <div class="area-row a-love"><span class="a-icon">❤️</span><div><strong>What You Love</strong><p>The activities that make you lose track of time — your genuine passions</p></div></div>
+        <div class="area-row a-good"><span class="a-icon">⭐</span><div><strong>What You're Good At</strong><p>Skills that feel natural to you but aren't obvious to everyone</p></div></div>
+        <div class="area-row a-needs"><span class="a-icon">🌍</span><div><strong>What the World Needs</strong><p>The problems you care about and want to help solve</p></div></div>
+        <div class="area-row a-paid"><span class="a-icon">💰</span><div><strong>What You Can Be Paid For</strong><p>What people value enough to pay you for</p></div></div>
       </div>
-      <div class="prev-steps-label">5 personalised next steps</div>
-      <div class="prev-steps"><a href="#">Idealist.org</a><a href="#">Climatebase</a><a href="#">Substack</a><a href="#">80,000 Hours</a><a href="#">Maven</a></div>
-      <span class="prev-real-tag">↑ Real output from an actual session</span>
+      <div class="ikigai-diagram">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+          <defs>
+            <radialGradient id="gL"><stop offset="0%" stop-color="#ff8a80"/><stop offset="100%" stop-color="#e53935" stop-opacity=".75"/></radialGradient>
+            <radialGradient id="gG"><stop offset="0%" stop-color="#82b1ff"/><stop offset="100%" stop-color="#1565c0" stop-opacity=".75"/></radialGradient>
+            <radialGradient id="gN"><stop offset="0%" stop-color="#69f0ae"/><stop offset="100%" stop-color="#2e7d32" stop-opacity=".75"/></radialGradient>
+            <radialGradient id="gP"><stop offset="0%" stop-color="#ffd180"/><stop offset="100%" stop-color="#e65100" stop-opacity=".75"/></radialGradient>
+          </defs>
+          <circle cx="155" cy="155" r="110" fill="url(#gL)" fill-opacity=".4"/>
+          <circle cx="245" cy="155" r="110" fill="url(#gG)" fill-opacity=".4"/>
+          <circle cx="155" cy="245" r="110" fill="url(#gN)" fill-opacity=".4"/>
+          <circle cx="245" cy="245" r="110" fill="url(#gP)" fill-opacity=".4"/>
+          <circle cx="200" cy="200" r="42" fill="white" fill-opacity=".9"/>
+          <text x="200" y="196" text-anchor="middle" font-family="'Noto Serif JP',serif" font-size="13" font-weight="700" fill="#c0392b">生き甲斐</text>
+          <text x="200" y="212" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#c0392b" letter-spacing=".1em">IKIGAI</text>
+          <text x="200" y="82" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#6c3483" letter-spacing=".06em">PASSION</text>
+          <text x="82" y="204" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#0e6655" transform="rotate(-90,82,204)" letter-spacing=".06em">MISSION</text>
+          <text x="318" y="204" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#1a5276" transform="rotate(90,318,204)" letter-spacing=".06em">PROFESSION</text>
+          <text x="200" y="318" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#7d6608" letter-spacing=".06em">VOCATION</text>
+        </svg>
+      </div>
     </div>
   </div>
-</div></section>
-<section class="final-cta">
-  <h2>Your ikigai is waiting to be found.</h2>
-  <p>It takes 10 minutes. It could change the direction of your life. The conversation is free — save your report for £4.99.</p>
-  <a href="/app" class="final-btn">Start My Discovery →</a>
-  <p class="final-meta">No sign-up · No credit card · Just a conversation</p>
 </section>
-<footer><p>© 2026 Ikigai Discovery &nbsp;·&nbsp; Powered by Claude AI &nbsp;·&nbsp; <a href="/app" style="color:var(--red);text-decoration:none;">Start the conversation →</a></p></footer>
+
+<section class="how">
+  <div class="container">
+    <p class="section-label">How it works</p>
+    <h2 class="section-title">Three steps. Fifteen minutes. A direction you can trust.</h2>
+    <p class="section-sub">No forms. No personality tests. No jargon. Just a warm, honest conversation that meets you where you are.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h3>Have a conversation</h3><p>Your AI guide asks you sim friendly questions about your life, passions, and skills. Just answer honestly — there are no wrong answers.</p></div>
+      <div class="step"><div class="step-num">2</div><h3>Watch it take shape</h3><p>As you talk, your guide reflects back what it's hearing and explores where your answers overlap, building your unique ikigai picture.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Get your results</h3><p>Your personalised diagram, your unique ikigai statement, and 5 specific next steps appear instantly — completely free. No card. No catch. Just clarity.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label">Why it works</p>
+    <h2 class="section-title">People are amazed at what they discover</h2>
+    <p class="section-sub">Most career tools give you a generic box to fit into. This gives you a genuine conversation — and something that can genuinely change the direction you're heading.</p>
+    <div class="benefits-grid">
+      <div class="benefit"><span class="b-icon">🧭</span><h3>Real clarity, not a generic label</h3><p>You'll walk away with a written statement of your ikigai — specific to you, not a colour or archetype. Something you can actually read back and think: yes, that's me.</p></div>
+      <div class="benefit"><span class="b-icon">💡</span><h3>Uncovers what you've been carrying all along</h3><p>Most people are sitting on more than they realise. The conversation draws out passions and strengths you've never thought to name — and shows you how they fit together.</p></div>
+      <div class="benefit"><span class="b-icon">🚀</span><h3>5 specific next steps, not more searching</h3><p>Real websites, companies, and paths matched to your unique result. Not more questions — actual doors you can walk through.</p></div>
+      <div class="benefit"><span class="b-icon">🤝</span><h3>Warm, honest, and completely free</h3><p>No sales pitch. No upsell. A genuine conversation — warm, curious, and non-judgemental — from start to finish. Free. Always.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="get">
+  <div class="container">
+    <p class="section-label">What you receive</p>
+    <h2 class="section-title">Your personalised Ikigai report</h2>
+    <p class="section-sub">At the end of your conversation you'll receive everything you need to take your next step with confidence.</p>
+    <div class="get-box">
+      <div>
+        <ul class="get-list">
+          <li>A beautiful, personalised Ikigai diagram showing all four areas</li>
+          <li>Your written Ikigai statement — your unique reason for being</li>
+          <li>Your Passion, Mission, Vocation, and Profession mapped out clearly</li>
+          <li>5 specific next steps with real websites tailored to you</li>
+          <li>A conversation you can return to and build on</li>
+        </ul>
+        <div class="get-pricing-note">
+          💬 <strong>Everything is completely free.</strong> Your diagram, your statement, your next steps — all of it. No sign-up. No credit card. No catch. Ever.
+        </div>
+      </div>
+      <div class="get-preview">
+        <div class="prev-top-label">Sample result</div>
+        <div class="prev-name">Sarah's Ikigai</div>
+        <div class="prev-statement">"Using your talent for translating complex ideas into human stories to help mission-driven organisations connect with the people they're trying to reach."</div>
+        <div class="prev-grid">
+          <div class="prev-int prev-passion"><span>Passion</span><p>Storytelling &amp; writing</p></div>
+          <div class="prev-int prev-mission"><span>Mission</span><p>Purpose-driven comms</p></div>
+          <div class="prev-int prev-profession"><span>Profession</span><p>Content strategy</p></div>
+          <div class="prev-int prev-vocation"><span>Vocation</span><p>Climate &amp; social causes</p></div>
+        </div>
+        <div class="prev-steps-label">5 personalised next steps</div>
+        <div class="prev-steps">
+          <a href="#">Idealist.org</a>
+          <a href="#">Climatebase</a>
+          <a href="#">Substack</a>
+          <a href="#">80,000 Hours</a>
+          <a href="#">Maven</a>
+        </div>
+        <span class="prev-real-tag">↑ Real output from an actual session</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <h2>Lost. Searching. You'll be amazed where this leads.</h2>
+  <p>15 minutes. A honest conversation. The clearest picture of yourself you've ever had. Free — because everyone deserves to know their reason for being.</p>
+  <a href="/app" class="final-btn">Start My Discovery — It's Free →</a>
+  <p class="final-meta">No sign-up · No credit card · No catch · Just a conversation</p>
+</section>
+
+<footer>
+  <p>© 2026 Ikigai Discovery &nbsp;·&nbsp; Powered by Claude AI &nbsp;·&nbsp; <a href="/app" style="color:var(--red);text-decoration:none;">Start the conversation →</a></p>
+</footer>
+
 </body>
-    </html>
+</html>
