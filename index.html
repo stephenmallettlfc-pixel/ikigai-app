@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Ikigai — Find Your Reason for Being</title>
+  <!-- Google Analytics GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3MXJ830ZXJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3MXJ830ZXJ');
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;700&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #c0392b;
+      --bg: #faf9f7;
+      --surface: #ffffff;
+      --border: #ede9e3;
+      --text: #1a1a2e;
+      --muted: #888;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .logo-kanji {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.5rem;
+      color: var(--red);
+    }
+    .logo-text h1 {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .logo-text p {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .new-btn {
+      margin-left: auto;
+      background: none;
+      border: 1px solid var(--border);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: var(--muted);
+      font-family: inherit;
+    }
+    .new-btn:hover { border-color: #bbb; color: var(--text); }
+
+    /* ── Layout ── */
+    .layout {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* ── Chat panel ── */
+    .chat-panel {
+      width: 480px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      background: white;
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .message {
+      display: flex;
+      gap: 10px;
+      max-width: 100%;
+    }
+    .message.user { flex-direction: row-reverse; }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .avatar.claude {
+      background: linear-gradient(135deg, #c0392b, #e74c3c);
+      color: white;
+      font-family: 'Noto Serif JP', serif;
+    }
+    .avatar.user {
+      background: #1a1a2e;
+      color: white;
+    }
+
+    .bubble {
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      max-width: calc(100% - 50px);
+    }
+    .message.claude .bubble {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-top-left-radius: 4px;
+    }
+    .message.user .bubble {
+      background: #1a1a2e;
+      color: white;
+      border-top-right-radius: 4px;
+    }
+
+    .typing-dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      background: var(--muted);
+      border-radius: 50%;
+      animation: blink 1.2s infinite;
+      margin: 0 2px;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink { 0%,80%,100% { opacity:0.2 } 40% { opacity:1 } }
+
+    /* ── Input bar ── */
+    .input-bar {
+      padding: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    textarea {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      resize: none;
+      min-height: 44px;
+      max-height: 140px;
+      outline: none;
+      background: var(--bg);
+      line-height: 1.5;
+    }
+    textarea:focus { border-color: var(--red); }
+    .send-btn {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: var(--red);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .send-btn:hover { background: #a93226; }
+    .send-btn:disabled { background: #ddd; cursor: not-allowed; }
+    .send-btn svg { fill: white; }
+
+    /* ── Right panel ── */
+    .right-panel {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── Welcome state ── */
+    .welcome {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      max-width: 620px;
+      gap: 20px;
+      padding-top: 8px;
+    }
+    .welcome-hero {
+      text-align: center;
+      padding: 28px 24px 20px;
+      background: linear-gradient(135deg, #fff5f5, #fff8f0);
+      border: 1.5px solid #f5cba7;
+      border-radius: 20px;
+      width: 100%;
+    }
+    .welcome .big-kanji {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 3rem;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+    .welcome-hero h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .welcome-hero .tagline {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.7;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+    .welcome-what {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 24px;
+      width: 100%;
+    }
+    .welcome-what h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .four-areas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .area-pill {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+    .area-pill .area-icon { font-size: 1.2rem; flex-shrink: 0; }
+    .area-pill .area-name { font-weight: 600; display: block; margin-bottom: 2px; }
+    .area-pill .area-desc { color: #666; }
+    .area-love    { background: #fdecea; }
+    .area-good    { background: #eaf4fb; }
+    .area-needs   { background: #eafaf1; }
+    .area-paid    { background: #fdf2e9; }
+    .area-love .area-name    { color: #c0392b; }
+    .area-good .area-name    { color: #2471a3; }
+    .area-needs .area-name   { color: #1e8449; }
+    .area-paid .area-name    { color: #a04000; }
+    .welcome-how {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 24px;
+      width: 100%;
+    }
+    .welcome-how h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .how-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .how-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.85rem;
+      color: #444;
+      line-height: 1.55;
+    }
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--red);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .hero-time {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: #888;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 14px;
+    }
+
+    /* Benefits */
+    .welcome-benefits {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 24px;
+      width: 100%;
+    }
+    .welcome-benefits h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .benefit-list { display: flex; flex-direction: column; gap: 14px; }
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 0.85rem;
+      line-height: 1.55;
+    }
+    .benefit-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
+    .benefit-item strong { display: block; color: var(--text); font-size: 0.9rem; margin-bottom: 2px; }
+    .benefit-item p { color: #666; margin: 0; }
+
+    /* Start CTA box */
+    .welcome-start-box {
+      width: 100%;
+      background: linear-gradient(135deg, #c0392b, #e74c3c);
+      border-radius: 16px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: white;
+      margin-bottom: 16px;
+    }
+    .start-arrow { font-size: 2rem; flex-shrink: 0; }
+    .start-text strong { display: block; font-size: 1rem; margin-bottom: 4px; }
+    .start-text p { font-size: 0.85rem; opacity: 0.88; margin: 0; line-height: 1.5; }
+
+    /* ── Progress tracker ── */
+    .progress-bar {
+      display: none;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 24px;
+    }
+    .progress-bar.visible { display: flex; gap: 6px; }
+    .progress-step {
+      flex: 1;
+      height: 4px;
+      border-radius: 2px;
+      background: #e8e6e1;
+      transition: background 0.3s;
+    }
+    .progress-step.done { background: var(--red); }
+    .progress-step.active { background: #f1948a; }
+
+    /* ── Diagram container ── */
+    .diagram-container {
+      display: none;
+      width: 100%;
+    }
+    .diagram-container.visible { display: block; }
+    .diagram-container iframe {
+      width: 100%;
+      height: 2200px;
+      border: none;
+      border-radius: 16px;
+    }
+
+    /* ── Payment panel ── */
+    .payment-panel {
+      display: none;
+      margin-top: 24px;
+      background: linear-gradient(135deg, #fff8f5, #fff);
+      border: 2px solid #f5cba7;
+      border-radius: 20px;
+      padding: 32px 36px;
+      text-align: center;
+    }
+    .payment-panel.visible { display: block; }
+    .payment-icon {
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+    }
+    .payment-content h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .payment-content > p {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.65;
+      margin-bottom: 18px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .payment-includes {
+      list-style: none;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+    .payment-includes li {
+      font-size: 0.88rem;
+      color: #333;
+      font-weight: 500;
+    }
+    .pay-btn {
+      display: inline-block;
+      background: var(--red);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      padding: 16px 36px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+    .pay-btn:hover { background: #a93226; transform: translateY(-1px); }
+    .pay-btn:active { transform: translateY(0); }
+    .pay-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+    .payment-note {
+      font-size: 0.75rem;
+      color: #aaa;
+      margin-top: 0;
+    }
+    .email-capture { margin-bottom: 16px; text-align: left; max-width: 360px; margin-left: auto; margin-right: auto; }
+    .email-label { display: block; font-size: 0.82rem; font-weight: 600; color: #444; margin-bottom: 6px; }
+    .email-optional { font-weight: 400; color: #aaa; }
+    .email-input { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 14px; font-family: inherit; font-size: 0.88rem; outline: none; background: var(--bg); color: var(--text); }
+    .email-input:focus { border-color: var(--red); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .layout { flex-direction: column; }
+      .chat-panel { width: 100%; border-right: none; border-bottom: 1px solid var(--border); height: 55vh; }
+      .right-panel { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-kanji">生き甲斐</div>
+  <div class="logo-text">
+    <h1>Ikigai</h1>
+    <p>Find your reason for being</p>
+  </div>
+  <button class="new-btn" onclick="startFresh()">+ New Session</button>
+</header>
+
+<div class="layout">
+
+  <!-- Chat -->
+  <div class="chat-panel">
+    <div class="messages" id="messages"></div>
+    <div class="input-bar">
+      <textarea id="input" placeholder="Type your message…" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      <button class="send-btn" id="send-btn" onclick="sendMessage()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Right panel -->
+  <div class="right-panel" id="right-panel">
+    <div class="progress-bar" id="progress-bar">
+      <div class="progress-step" id="step-love" title="What You Love"></div>
+      <div class="progress-step" id="step-good" title="What You're Good At"></div>
+      <div class="progress-step" id="step-needs" title="What the World Needs"></div>
+      <div class="progress-step" id="step-paid" title="What You Can Be Paid For"></div>
+      <div class="progress-step" id="step-synthesis" title="Synthesis"></div>
+    </div>
+
+    <div class="welcome" id="welcome">
+
+      <!-- Hero -->
+      <div class="welcome-hero">
+        <div class="big-kanji">生き甲斐</div>
+        <h2>Discover Your Reason for Being</h2>
+        <p class="tagline">
+          Most people spend years wondering what they should do with their life.
+          Ikigai (pronounced <em>ee-kee-guy</em>) is a Japanese philosophy that cuts through the noise —
+          helping you find the <strong>exact point</strong> where your passion, your talents,
+          your purpose, and your income potential all meet.
+        </p>
+        <div class="hero-time">⏱ Takes about 10–15 minutes &nbsp;·&nbsp; Free conversation &nbsp;·&nbsp; Full report £4.99</div>
+      </div>
+
+      <!-- Benefits -->
+      <div class="welcome-benefits">
+        <h3>Why people do this</h3>
+        <div class="benefit-list">
+          <div class="benefit-item">
+            <div class="benefit-icon">🧭</div>
+            <div>
+              <strong>Feel clear about your direction</strong>
+              <p>Stop second-guessing your career path. Get a clear, written picture of where your strengths and passions meet real opportunity.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">💡</div>
+            <div>
+              <strong>Uncover what makes you unique</strong>
+              <p>Most people undersell themselves. This conversation surfaces skills and qualities you might not have thought to put on a CV.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">🚀</div>
+            <div>
+              <strong>Walk away with a concrete action plan</strong>
+              <p>You'll finish with 5 specific, hand-picked next steps — real websites, companies, and platforms matched to your ikigai.</p>
+            </div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">🎯</div>
+            <div>
+              <strong>Stop drifting, start doing</strong>
+              <p>Whether you're changing careers, starting something new, or just feeling stuck — this gives you a meaningful starting point.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Four areas -->
+      <div class="welcome-what">
+        <h3>The four areas we'll explore together</h3>
+        <div class="four-areas">
+          <div class="area-pill area-love">
+            <span class="area-icon">❤️</span>
+            <div>
+              <span class="area-name">What You Love</span>
+              <span class="area-desc">Activities that light you up and make time fly</span>
+            </div>
+          </div>
+          <div class="area-pill area-good">
+            <span class="area-icon">⭐</span>
+            <div>
+              <span class="area-name">What You're Good At</span>
+              <span class="area-desc">Skills and strengths that come naturally to you</span>
+            </div>
+          </div>
+          <div class="area-pill area-needs">
+            <span class="area-icon">🌍</span>
+            <div>
+              <span class="area-name">What the World Needs</span>
+              <span class="area-desc">Problems you care about and want to help solve</span>
+            </div>
+          </div>
+          <div class="area-pill area-paid">
+            <span class="area-icon">💰</span>
+            <div>
+              <span class="area-name">What You Can Be Paid For</span>
+              <span class="area-desc">Skills or services people would pay for</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- How it works -->
+      <div class="welcome-how">
+        <h3>How it works — 3 simple steps</h3>
+        <div class="how-steps">
+          <div class="how-step">
+            <div class="step-num">1</div>
+            <div><strong>Have a conversation.</strong> Your AI guide will ask you simple, friendly questions — just answer in your own words, as if you're talking to a trusted friend. There are no right or wrong answers.</div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">2</div>
+            <div><strong>Watch it take shape.</strong> As you talk, your guide reflects back what it's hearing and gently explores where your answers overlap. A progress bar above will show where you are.</div>
+          </div>
+          <div class="how-step">
+            <div class="step-num">3</div>
+            <div><strong>Get your personalised result.</strong> Your full Ikigai diagram appears here — complete with your four intersections (Passion, Mission, Vocation, Profession) and 5 specific next steps matched to you. Unlock and save your full report for just <strong>£4.99</strong>.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="welcome-start-box">
+        <div class="start-arrow">👈</div>
+        <div class="start-text">
+          <strong>Ready? Your guide has already said hello.</strong>
+          <p>Look at the chat on the left — just type your first reply to begin. It really is that simple.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="diagram-container" id="diagram-container">
+      <iframe id="diagram-frame" title="Your Ikigai Diagram"></iframe>
+
+      <div class="payment-panel" id="payment-panel">
+        <div class="payment-icon">✨</div>
+        <div class="payment-content">
+          <h3>Your Ikigai is ready — save it for keeps</h3>
+          <p>Your full report includes your written Ikigai statement, your four intersections, and 5 specific next steps with real websites chosen just for you.</p>
+          <ul class="payment-includes">
+            <li>✅ Your personalised Ikigai statement</li>
+            <li>✅ Passion, Mission, Vocation &amp; Profession mapped out</li>
+            <li>✅ 5 tailored next steps with real platforms &amp; companies</li>
+            <li>✅ Yours to keep and refer back to</li>
+          </ul>
+          <div class="email-capture" id="email-capture">
+            <label class="email-label" for="result-email">Get a copy sent to your email <span class="email-optional">(optional)</span></label>
+            <input type="email" id="result-email" class="email-input" placeholder="your@email.com" autocomplete="email"/>
+          </div>
+          <button class="pay-btn" id="pay-btn" onclick="savePaidResults()">
+            Save my full report — £4.99
+          </button>
+          <p class="payment-note">Secure payment via Stripe · One-time fee · No subscription</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let messages = [];
+  let isStreaming = false;
+  let diagramGenerated = false;
+
+  // Progress tracking — simple keyword heuristics
+  const progressKeywords = {
+    'step-love':      ['love', 'enjoy', 'passion', 'excited', 'lose track of time'],
+    'step-good':      ['good at', "you're great", 'strength', 'skill', 'talent', 'naturally'],
+    'step-needs':     ['world needs', 'problem', 'bother', 'care about', 'community', 'mission'],
+    'step-paid':      ['paid for', 'earn', 'income', 'livelihood', 'charge', 'profession'],
+    'step-synthesis': ['passion', 'mission', 'vocation', 'ikigai', 'reason for being'],
+  };
+
+  function updateProgress(text) {
+    const lower = text.toLowerCase();
+    const bar = document.getElementById('progress-bar');
+    bar.classList.add('visible');
+    for (const [id, keywords] of Object.entries(progressKeywords)) {
+      if (keywords.some(kw => lower.includes(kw))) {
+        document.getElementById(id).classList.add('active');
+      }
+    }
+  }
+
+  function markProgressDone() {
+    document.querySelectorAll('.progress-step').forEach(s => {
+      s.classList.remove('active');
+      s.classList.add('done');
+    });
+  }
+
+  function addMessage(role, content) {
+    const container = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+
+    const avatar = document.createElement('div');
+    avatar.className = `avatar ${role}`;
+    avatar.textContent = role === 'claude' ? '生' : 'S';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = content;
+
+    div.appendChild(avatar);
+    div.appendChild(bubble);
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+    return bubble;
+  }
+
+  function addTypingIndicator() {
+    const container = document.getElementById('messages');
+    const div = document.createElement('div');
+    div.className = 'message claude';
+    div.id = 'typing-indicator';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar claude';
+    avatar.textContent = '生';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+
+    div.appendChild(avatar);
+    div.appendChild(bubble);
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function removeTypingIndicator() {
+    const el = document.getElementById('typing-indicator');
+    if (el) el.remove();
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('input');
+    const text = input.value.trim();
+    if (!text || isStreaming) return;
+
+    input.value = '';
+    autoResize(input);
+
+    const isFirstMessage = messages.length === 0;
+    messages.push({ role: 'user', content: text });
+    addMessage('user', text);
+
+    if (isFirstMessage && typeof gtag === 'function') {
+      gtag('event', 'conversation_start', {
+        event_category: 'engagement',
+        event_label: 'ikigai_chat'
+      });
+    }
+
+    isStreaming = true;
+    document.getElementById('send-btn').disabled = true;
+    addTypingIndicator();
+
+    try {
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages }),
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.detail || 'Server error');
+      }
+
+      removeTypingIndicator();
+      const bubble = addMessage('claude', '');
+      let fullText = '';
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n');
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6);
+            if (data === '[DONE]') break;
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.type === 'text') {
+                fullText += parsed.content;
+                bubble.textContent = fullText;
+                document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+                updateProgress(fullText);
+              } else if (parsed.type === 'diagram') {
+                showDiagram(parsed.html);
+                markProgressDone();
+              }
+            } catch (e) { /* skip malformed */ }
+          }
+        }
+      }
+
+      messages.push({ role: 'assistant', content: fullText });
+
+    } catch (err) {
+      removeTypingIndicator();
+      addMessage('claude', `Sorry, something went wrong: ${err.message}. Please check your API key in the .env file and try again.`);
+    }
+
+    isStreaming = false;
+    document.getElementById('send-btn').disabled = false;
+    document.getElementById('input').focus();
+  }
+
+  let currentDiagramHtml = '';
+
+  function showDiagram(html) {
+    const welcome = document.getElementById('welcome');
+    const container = document.getElementById('diagram-container');
+    const frame = document.getElementById('diagram-frame');
+    const paymentPanel = document.getElementById('payment-panel');
+
+    currentDiagramHtml = html;
+
+    welcome.style.display = 'none';
+    container.classList.add('visible');
+
+    const blob = new Blob([html], { type: 'text/html' });
+    frame.src = URL.createObjectURL(blob);
+    diagramGenerated = true;
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'diagram_generated', {
+        event_category: 'engagement',
+        event_label: 'ikigai_complete'
+      });
+    }
+
+    // Show payment panel
+    paymentPanel.classList.add('visible');
+
+    // Add transition message in chat
+    setTimeout(() => {
+      addMessage('claude', '✨ Your Ikigai is ready! Take a look on the right — I\'ve mapped out your personalised diagram, your four intersections (Passion, Mission, Vocation and Profession), and 5 specific next steps chosen just for you.\n\nTo save and keep your full report, tap the button below the diagram. It\'s a one-time payment of £4.99 — no subscription, no catch.');
+    }, 600);
+
+    document.getElementById('right-panel').scrollTop = 0;
+  }
+
+  async function savePaidResults() {
+    if (typeof gtag === 'function') {
+      gtag('event', 'checkout_initiated', {
+        event_category: 'ecommerce',
+        event_label: 'ikigai_report',
+        value: 4.99,
+        currency: 'GBP'
+      });
+    }
+
+    const btn = document.getElementById('pay-btn');
+    btn.disabled = true;
+    btn.textContent = 'Preparing checkout…';
+
+    try {
+      // Store the result on the server
+      const storeRes = await fetch('/store-result', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ html: currentDiagramHtml }),
+      });
+      const storeData = await storeRes.json();
+      const resultId = storeData.result_id;
+
+      // Create a Stripe checkout session (pass email if provided)
+      const emailVal = (document.getElementById('result-email').value || '').trim();
+      const checkoutRes = await fetch('/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ result_id: resultId, email: emailVal || null }),
+      });
+      const checkoutData = await checkoutRes.json();
+
+      if (checkoutData.url) {
+        window.location.href = checkoutData.url;
+      } else {
+        throw new Error('No checkout URL returned');
+      }
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = 'Save my full report — £4.99';
+      addMessage('claude', 'Sorry, something went wrong setting up payment. Please try again in a moment.');
+    }
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 140) + 'px';
+  }
+
+  function startFresh() {
+    if (!confirm('Start a new session? Your current conversation will be lost.')) return;
+    messages = [];
+    document.getElementById('messages').innerHTML = '';
+    document.getElementById('welcome').style.display = '';
+    document.getElementById('diagram-container').classList.remove('visible');
+    document.getElementById('payment-panel').classList.remove('visible');
+    document.getElementById('progress-bar').classList.remove('visible');
+    document.querySelectorAll('.progress-step').forEach(s => {
+      s.classList.remove('done', 'active');
+    });
+    diagramGenerated = false;
+    isStreaming = false;
+    document.getElementById('send-btn').disabled = false;
+    startConversation();
+  }
+
+  function startConversation() {
+    // Show a warm, hardcoded opening message instantly — no API call needed
+    const openingMessage = `Welcome! 👋 I'm your personal Ikigai guide.
+
+Over the next 10–15 minutes, I'll ask you a series of simple questions to help you discover your ikigai — your unique reason for being. By the end, you'll have a beautiful personalised diagram and a clear set of next steps to move forward with.
+
+There are no right or wrong answers — just be yourself and answer as honestly as you can.
+
+To get us started: what's your name?`;
+
+    const bubble = addMessage('claude', openingMessage);
+    messages.push({ role: 'assistant', content: openingMessage });
+    document.getElementById('input').focus();
+  }
+
+  // Auto-start when page loads
+  window.addEventListener('load', startConversation);
+</script>
+</body>
+</html>
